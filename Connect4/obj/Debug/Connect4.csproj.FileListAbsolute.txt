@@ -1,0 +1,7 @@
+C:\Users\092827\Desktop\New folder\205\ConsoleApps\3_Connect4\Connect4\bin\Debug\Connect4.exe.config
+C:\Users\092827\Desktop\New folder\205\ConsoleApps\3_Connect4\Connect4\bin\Debug\Connect4.exe
+C:\Users\092827\Desktop\New folder\205\ConsoleApps\3_Connect4\Connect4\bin\Debug\Connect4.pdb
+C:\Users\092827\Desktop\New folder\205\ConsoleApps\3_Connect4\Connect4\obj\Debug\Connect4.csprojAssemblyReference.cache
+C:\Users\092827\Desktop\New folder\205\ConsoleApps\3_Connect4\Connect4\obj\Debug\Connect4.csproj.CoreCompileInputs.cache
+C:\Users\092827\Desktop\New folder\205\ConsoleApps\3_Connect4\Connect4\obj\Debug\Connect4.exe
+C:\Users\092827\Desktop\New folder\205\ConsoleApps\3_Connect4\Connect4\obj\Debug\Connect4.pdb
