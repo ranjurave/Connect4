@@ -21,14 +21,11 @@ namespace Connect4 {
         public char[,] board = new char[BoardSize.x, BoardSize.y];
         public ConsoleKeyInfo Info;
         public bool IsRunning = true;
-
-        private static int scoreYellow = 0;
-        private static int scoreRed = 0;
         
         private Renderer renderer = new Renderer();
-        private string log = "";
-        private PlayerID turn = new Random().Next(0, 2) == 0 ? PlayerID.Yellow : PlayerID.Red;
-        private PlayerID victor = PlayerID.None;
+        public string log = "";
+        public PlayerID turn = new Random().Next(0, 2) == 0 ? PlayerID.Yellow : PlayerID.Red;
+        public PlayerID victor = PlayerID.None;
 
         private void GenerateBoard() {
             for (int y = 0; y < BoardSize.y; y++) {
@@ -42,7 +39,7 @@ namespace Connect4 {
             renderer.Render();
 
             while (IsRunning) {
-                MessageLog();
+                renderer.MessageLog();
 
                 IsRunning = !IsGameOver();
                 if (!IsRunning) {
@@ -75,7 +72,7 @@ namespace Connect4 {
         }
 
         private void PlaceTile(int selectedColumn) {
-            for (int i = 0; i < BoardSize.y; i++) {
+            for (int i = 0; i < BoardSize.y; i++) { //start from bottom
                 char c = board[selectedColumn, i];
                 //Console.WriteLine(c + ", " + i);
 
@@ -221,20 +218,14 @@ namespace Connect4 {
             if (victor != PlayerID.None) {
                 IsRunning = false;
 
-                if (victor == PlayerID.Yellow) {
-                    scoreYellow++;
-                } else {
-                    scoreRed++;
-                }
-
                 // Haxx in a render before we restart the game.
                 renderer.Render();
-                MessageLog();
+                renderer.MessageLog();
 
                 Console.ForegroundColor = victor == PlayerID.Yellow ? ConsoleColor.Yellow : ConsoleColor.Red;
                 Console.WriteLine("\n" + victor.ToString() + " has won. Press ENTER to play again.");
 
-                ConsoleKey key = ConsoleKey.D0;
+                ConsoleKey key = ConsoleKey.D0; //Inidtialising as '0' key
                 while (key != ConsoleKey.Enter) {
                     key = Console.ReadKey(true).Key;
                 }
@@ -242,23 +233,6 @@ namespace Connect4 {
                 return true;
             }
             return false;
-        }
-
-        public void MessageLog() {
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write("Yellow: " + scoreYellow);
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write("\tRed: " + scoreRed);
-
-            Console.ResetColor();
-            Console.Write("\nChoose a column from 1-" + BoardSize.x);
-
-            if (victor == PlayerID.None) {
-                Console.ForegroundColor = turn == PlayerID.Yellow ? ConsoleColor.Yellow : ConsoleColor.Red;
-                Console.Write("\n" + turn.ToString() + "'s turn...");
-            }
-            Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.Write(log);
         }
 
         public void ClearDialogue() {

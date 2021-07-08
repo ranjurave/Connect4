@@ -2,7 +2,6 @@
 
 namespace Connect4 {
     internal class Renderer {
-
         public void Render() {
             Console.SetCursorPosition(0, 0);
             RenderVerticalBoundary();
@@ -12,7 +11,6 @@ namespace Connect4 {
 
             Console.Write("\n");
             RenderVerticalBoundary();
-            Console.Write("\n\n");
         }
 
         private static void RenderBoard() {
@@ -70,6 +68,17 @@ namespace Connect4 {
                 Console.Write('-');
             }
             Console.Write("||\n");
+        }
+        public void MessageLog() {
+            Console.ResetColor();
+            Console.Write("\nChoose a column from 1-" + Game.BoardSize.x);
+
+            if (Game.GameInstance.victor == Game.PlayerID.None) {
+                Console.ForegroundColor = Game.GameInstance.turn == Game.PlayerID.Yellow ? ConsoleColor.Yellow : ConsoleColor.Red;
+                Console.Write("\n" + Game.GameInstance.turn.ToString() + "'s turn...");
+            }
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.Write(Game.GameInstance.log);
         }
     }
 }
