@@ -2,29 +2,11 @@
 
 namespace Connect4 {
     internal class Renderer {
-        public Renderer() {
-            //Console.WindowHeight = Game.BoardSize.y + 10;
-            //Console.WindowWidth = Game.BoardSize.x + 5;
-        }
 
         public void Render() {
             Console.SetCursorPosition(0, 0);
-
             RenderVerticalBoundary();
-
-            for (int y = Game.BoardSize.y - 1; y >= 0; y--) {
-                Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.Write("\n|| ");
-
-                for (int x = 0; x < Game.BoardSize.x; x++) {
-                    SetObjectColor(Game.Instance.board[x, y]);
-                    Console.Write(Game.Instance.board[x, y] + " ");
-                }
-
-                Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.Write("||");
-            }
-
+            RenderBoard();
             RenderDivider();
             RenderGuide();
 
@@ -33,6 +15,22 @@ namespace Connect4 {
             Console.Write("\n\n");
         }
 
+        private static void RenderBoard() {
+            //var temp = new Renderer();
+            for (int y = Game.BoardSize.y - 1; y >= 0; y--) {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("\n|| ");
+                
+                for (int x = 0; x < Game.BoardSize.x; x++) {
+                    
+                    SetObjectColor(Game.GameInstance.board[x, y]);
+                    Console.Write(Game.GameInstance.board[x, y] + " ");
+                }
+
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("||");
+            }
+        }
         private static void RenderGuide() {
             Console.Write("|| ");
             for (int x = 0; x < Game.BoardSize.x; x++) {
@@ -42,7 +40,7 @@ namespace Connect4 {
             Console.Write("||");
         }
 
-        private void SetObjectColor(char _c) {
+        private static void SetObjectColor(char _c) {
             Console.ForegroundColor = ConsoleColor.DarkGreen;
 
             switch (_c) {

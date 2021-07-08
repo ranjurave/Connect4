@@ -1,24 +1,23 @@
 ﻿using System;
 
 namespace Connect4 {
-    internal class Game {
+    class Game {
+        
+        public Game() {
+            GameInstance = this;
+
+            GenerateBoard();
+            ProcessAndRender();
+        }
+        
         public enum PlayerID {
             None
         ,   Yellow
         ,   Red
         }
-        
-        public Game() {
-            Instance = this;
 
-            Generate();
-            ProcessAndRender();
-        }
-        
         public static readonly Vector2 BoardSize = new Vector2(7, 6);
-
-        public static Game Instance;
-
+        public static Game GameInstance;
         public char[,] board = new char[BoardSize.x, BoardSize.y];
         public ConsoleKeyInfo Info;
         public bool IsRunning = true;
@@ -31,7 +30,7 @@ namespace Connect4 {
         private PlayerID turn = new Random().Next(0, 2) == 0 ? PlayerID.Yellow : PlayerID.Red;
         private PlayerID victor = PlayerID.None;
 
-        private void Generate() {
+        private void GenerateBoard() {
             for (int y = 0; y < BoardSize.y; y++) {
                 for (int x = 0; x < BoardSize.x; x++) {
                     board[x, y] = '-';
@@ -43,7 +42,7 @@ namespace Connect4 {
             renderer.Render();
 
             while (IsRunning) {
-                Log();
+                MessageLog();
 
                 IsRunning = !IsGameOver();
                 if (!IsRunning) {
@@ -169,21 +168,17 @@ namespace Connect4 {
             int matchesFound = 1;
             // Check down.
             for (int i = 1; i <= 4; i++) {
-                if ( h - i < 0) { break; }
-                if (v - i < 0 || board[h - i, v - i] != c) {
+                if (v - i < 0 || h - i < 0 || board[h - i, v - i] != c) {
                     break;
                 }
-
                 matchesFound++;
             }
 
             // Check up.
             for (int i = 1; i <= 4; i++) {
-                if (h + i > BoardSize.x - 1) { break; }
-                if (v + i > BoardSize.y - 1 || board[h + i, v + i] != c) {
+                if (v + i > BoardSize.y - 1 || h + i > BoardSize.x - 1 || board[h + i, v + i] != c) {
                     break;
                 }
-
                 matchesFound++;
             }
 
@@ -199,8 +194,7 @@ namespace Connect4 {
 
             // Check down.
             for (int i = 1; i <= 4; i++) {
-                if (h + i > BoardSize.x - 1) { break; }
-                if (v - i < 0 || board[h + i, v - i] != c) {
+                if (v - i < 0 || h + i > BoardSize.x - 1 || board[h + i, v - i] != c) {
                     break;
                 }
 
@@ -209,8 +203,7 @@ namespace Connect4 {
 
             // Check up.
             for (int i = 1; i <= 4; i++) {
-                if (h - i < 0) { break; }
-                if (v + i > BoardSize.y - 1 || board[h - i, v + i] != c) {
+                if (v + i > BoardSize.y - 1 || h - i < 0 || board[h - i, v + i] != c) {
                     break;
                 }
 
@@ -236,7 +229,7 @@ namespace Connect4 {
 
                 // Haxx in a render before we restart the game.
                 renderer.Render();
-                Log();
+                MessageLog();
 
                 Console.ForegroundColor = victor == PlayerID.Yellow ? ConsoleColor.Yellow : ConsoleColor.Red;
                 Console.WriteLine("\n" + victor.ToString() + " has won. Press ENTER to play again.");
@@ -251,7 +244,7 @@ namespace Connect4 {
             return false;
         }
 
-        public void Log() {
+        public void MessageLog() {
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write("Yellow: " + scoreYellow);
             Console.ForegroundColor = ConsoleColor.Red;
@@ -264,7 +257,6 @@ namespace Connect4 {
                 Console.ForegroundColor = turn == PlayerID.Yellow ? ConsoleColor.Yellow : ConsoleColor.Red;
                 Console.Write("\n" + turn.ToString() + "'s turn...");
             }
-
             Console.ForegroundColor = ConsoleColor.Magenta;
             Console.Write(log);
         }
